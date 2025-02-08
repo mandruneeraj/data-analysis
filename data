@@ -1,0 +1,46 @@
+# mean_var_std.py
+
+import numpy as np
+
+def calculate(numbers):
+    if len(numbers) != 9:
+        raise ValueError("List must contain nine numbers.")
+    
+    # Convert the list to a 3x3 numpy array
+    matrix = np.array(numbers).reshape(3, 3)
+
+    # Prepare the dictionary to hold the results
+    result = {
+        'mean': [
+            list(matrix.mean(axis=0)),  # mean for each column
+            list(matrix.mean(axis=1)),  # mean for each row
+            float(matrix.mean())       # mean for the entire matrix (flattened)
+        ],
+        'variance': [
+            list(matrix.var(axis=0)),  # variance for each column
+            list(matrix.var(axis=1)),  # variance for each row
+            float(matrix.var())       # variance for the entire matrix (flattened)
+        ],
+        'standard deviation': [
+            list(matrix.std(axis=0)),  # std for each column
+            list(matrix.std(axis=1)),  # std for each row
+            float(matrix.std())       # std for the entire matrix (flattened)
+        ],
+        'max': [
+            list(matrix.max(axis=0)),  # max for each column
+            list(matrix.max(axis=1)),  # max for each row
+            int(matrix.max())         # max for the entire matrix (flattened)
+        ],
+        'min': [
+            list(matrix.min(axis=0)),  # min for each column
+            list(matrix.min(axis=1)),  # min for each row
+            int(matrix.min())         # min for the entire matrix (flattened)
+        ],
+        'sum': [
+            list(matrix.sum(axis=0)),  # sum for each column
+            list(matrix.sum(axis=1)),  # sum for each row
+            int(matrix.sum())         # sum for the entire matrix (flattened)
+        ]
+    }
+
+    return result
