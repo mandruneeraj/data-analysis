@@ -1,0 +1,48 @@
+import pandas as pd
+
+def race_count(df):
+    return df['race'].value_counts()
+
+def average_age_men(df):
+    men = df[df['sex'] == 'Male']
+    return round(men['age'].mean(), 1)
+
+def percentage_bachelors(df):
+    bachelors = df[df['education'] == 'Bachelors']
+    return round((len(bachelors) / len(df)) * 100, 1)
+
+def percentage_advanced_education_more_than_50k(df):
+    advanced_ed = df[df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])]
+    more_than_50k = advanced_ed[advanced_ed['salary'] == '>50K']
+    return round((len(more_than_50k) / len(advanced_ed)) * 100, 1)
+
+def percentage_without_advanced_education_more_than_50k(df):
+    no_advanced_ed = df[~df['education'].isin(['Bachelors', 'Masters', 'Doctorate'])]
+    more_than_50k = no_advanced_ed[no_advanced_ed['salary'] == '>50K']
+    return round((len(more_than_50k) / len(no_advanced_ed)) * 100, 1)
+
+def min_hours_per_week(df):
+    return df['hours-per-week'].min()
+
+def percentage_min_hours_more_than_50k(df):
+    min_hours = df[df['hours-per-week'] == df['hours-per-week'].min()]
+    more_than_50k = min_hours[min_hours['salary'] == '>50K']
+    return round((len(more_than_50k) / len(min_hours)) * 100, 1)
+
+def country_highest_percentage_of_people_earning_more_than_50k(df):
+    countries = df['native-country'].unique()
+    country_percentage = {}
+    
+    for country in countries:
+        country_data = df[df['native-country'] == country]
+        total_count = len(country_data)
+        earn_more_than_50k = len(country_data[country_data['salary'] == '>50K'])
+        country_percentage[country] = round((earn_more_than_50k / total_count) * 100, 1)
+    
+    highest_country = max(country_percentage, key=country_percentage.get)
+    return highest_country, country_percentage[highest_country]
+
+def most_popular_occupation_in_india(df):
+    india_data = df[df['native-country'] == 'India']
+    occupation_counts = india_data[india_data['salary'] == '>50K']['occupation'].value_counts()
+    return occupation_counts.idxmax()
